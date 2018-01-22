@@ -5,6 +5,7 @@ import android.app.ProgressDialog;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -12,6 +13,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -56,7 +58,18 @@ public class LiveFragment extends Fragment implements LiveMatchAdapter.ScoreCall
         liverecy.setLayoutManager(new LinearLayoutManager(getActivity()));
         adapter=new LiveMatchAdapter(list,getActivity(),this);
         liverecy.setAdapter(adapter);
-        getMatch();
+        if(((MainActivity)getActivity()).isNetworkConnected())
+            getMatch();
+        else Toast.makeText(getActivity(),"Not connected to internet",Toast.LENGTH_LONG).show();
+        FloatingActionButton fab=(FloatingActionButton)v.findViewById(R.id.score_refrsh);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(((MainActivity)getActivity()).isNetworkConnected())
+                    getMatch();
+                else Toast.makeText(getActivity(),"Not connected to internet",Toast.LENGTH_LONG).show();
+            }
+        });
         return  v;
     }
 

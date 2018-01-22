@@ -1,5 +1,7 @@
 package live.livecirc;
 
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
@@ -10,6 +12,7 @@ import static live.livecirc.R.id.Relative_layoutfor_fragments;
 public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSelectedListener{
     private static final String TAG_LIVE_FRAGMENT = "livematch";
     private TabLayout tabLayout;
+    private ConnectivityManager conManager;
     FragmentManager fragmentManager;
     int selectedtab=3;
     @Override
@@ -18,6 +21,7 @@ public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSe
         setContentView(R.layout.activity_main);
         tabLayout = (TabLayout) findViewById(R.id.tab_view);
         tabLayout.addOnTabSelectedListener(this);
+        conManager = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
         if(selectedtab !=0)
             onTabSelected(tabLayout.getTabAt(0));
     }
@@ -70,5 +74,9 @@ public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSe
     @Override
     public void onTabReselected(TabLayout.Tab tab) {
 
+    }
+    public boolean isNetworkConnected() {
+        NetworkInfo netInfo = conManager.getActiveNetworkInfo();
+        return netInfo != null && netInfo.isConnectedOrConnecting();
     }
 }

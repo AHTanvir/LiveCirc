@@ -121,12 +121,14 @@ public class PlayerFragment extends Fragment implements AdapterView.OnItemClickL
         tv_search=(EditText) v.findViewById(R.id.tv_search);
         search=(ImageButton) v.findViewById(R.id.img_button);
         image=(ImageView) v.findViewById(R.id.img_v);
-        search.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-               getPlayers();
-            }
-        });
+        if(((MainActivity)getActivity()).isNetworkConnected())
+            search.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    getPlayers();
+                }
+            });
+        else Toast.makeText(getActivity(),"Not connected to internet",Toast.LENGTH_LONG).show();
         return  v;
     }
    void getPlayers(){
